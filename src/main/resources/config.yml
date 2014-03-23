@@ -1,0 +1,9 @@
+purge:
+  timeInLobby: 180
+  timeInGame: 600
+  playerMin: 2
+  prefix: '&f[&dPurgeMC&f] '
+  setupmode: true
+  devTool: true
+  powerUps: true
+  

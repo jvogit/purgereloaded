@@ -1,0 +1,21 @@
+name: The Purge Reloaded
+main: com.gmail.mcraftworldmc.thepurge.Main
+version: 1.0.0
+author: MineOCraftMC
+description: The Purge Plugin
+commands:
+  purge:
+    description: The main Purge command!
+    usage: /<command>
+    permission: purge.setup
+  vote:
+    description: Vote command
+    usage: /<command> <number>
+    aliases: v
+  stats:
+    description: Stats command
+    usage: /<command>
+permissions:
+  purge.setup:
+    description: Permission to use set up command!
+    default: op

@@ -1,0 +1,10 @@
+book:
+  syndicateBook:
+    - '&aFirst &8page'
+    - '&cSecond &bpage'
+    - '&cNo more than &l&k8&4&l256&l&k8 &cCharacters'
+  civilianBook:
+    - '&cSame goes for this one!'
+  targetBook:
+    - '&aTarget'
+    - '&c256 CHARACTERS REMEMBER'
