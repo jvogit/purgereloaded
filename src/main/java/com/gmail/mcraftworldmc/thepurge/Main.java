@@ -7,6 +7,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.gmail.mcraftworldmc.thepurge.Listener.ChestListener;
+import com.gmail.mcraftworldmc.thepurge.Listener.PowerUpsListener;
+import com.gmail.mcraftworldmc.thepurge.Listener.PurgeGameListener;
+import com.gmail.mcraftworldmc.thepurge.Listener.PurgeMainListener;
+import com.gmail.mcraftworldmc.thepurge.commands.PurgeCommand;
+import com.gmail.mcraftworldmc.thepurge.commands.VoteCommand;
+import com.gmail.mcraftworldmc.thepurge.config.ItemsConfig;
+import com.gmail.mcraftworldmc.thepurge.config.Maps;
+import com.gmail.mcraftworldmc.thepurge.mechanics.Board;
+import com.gmail.mcraftworldmc.thepurge.mechanics.PurgeGame;
+import com.gmail.mcraftworldmc.thepurge.mechanics.VoteMechanic;
+import com.gmail.mcraftworldmc.thepurge.timers.GameTimer;
+import com.gmail.mcraftworldmc.thepurge.timers.PreGameTimer;
+import com.gmail.mcraftworldmc.thepurge.utilities.Book;
+
 /**
  * Main main class file
  * 
@@ -16,17 +31,17 @@ import org.bukkit.plugin.java.JavaPlugin;
  *
  */
 public class Main extends JavaPlugin{
-	Maps maps = new Maps(this);
-	Book book = new Book(this);
-	ItemsConfig itemConfig = new ItemsConfig(this);
-	PreGameTimer preTimer = new PreGameTimer(this);
-	GameTimer timer = new GameTimer(this);
-	PurgeGame game = new PurgeGame(this);
-	Board board = new Board(this);
-	VoteMechanic voteMech = new VoteMechanic(this);
-	String prefix;
-	HashMap<String, Integer> inChestSetup = new HashMap<>();
-	HashMap<String, ArrayList<String>> chestLocation = new HashMap<>();
+	public Maps maps = new Maps(this);
+	public Book book = new Book(this);
+	public ItemsConfig itemConfig = new ItemsConfig(this);
+	public PreGameTimer preTimer = new PreGameTimer(this);
+	public GameTimer timer = new GameTimer(this);
+	public PurgeGame game = new PurgeGame(this);
+	public Board board = new Board(this);
+	public VoteMechanic voteMech = new VoteMechanic(this);
+	public String prefix;
+	public HashMap<String, Integer> inChestSetup = new HashMap<>();
+	public HashMap<String, ArrayList<String>> chestLocation = new HashMap<>();
 	public void onEnable(){
 		saveDefaultConfig();
 		book.saveDefaultBookConfig();
