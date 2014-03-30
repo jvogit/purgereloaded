@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,10 +27,10 @@ public class PurgeGame {
 	private Main plugin;
 	private GameState gameState = GameState.LOBBY;
 	public World world;
-	private List<String> syndicate = new ArrayList<>();
-	private List<String> civillians = new ArrayList<>();
+	private List<UUID> syndicate = new ArrayList<>();
+	private List<UUID> civillians = new ArrayList<>();
 	private Player target;
-	private List<String> spectators = new ArrayList<>();
+	private List<UUID> spectators = new ArrayList<>();
 	private HashMap<String, Integer> votes = new HashMap<>();
 	public PurgeGame(Main instance){
 		plugin = instance;
@@ -55,7 +56,7 @@ public class PurgeGame {
 	public int getSyndicateCount(){
 		return this.syndicate.size();
 	}
-	public List<String> getSyndicateList(){
+	public List<UUID> getSyndicateList(){
 		return this.syndicate;
 	}
 	public Player getTarget(){
@@ -64,10 +65,10 @@ public class PurgeGame {
 	public int getCivillianCount(){
 		return this.civillians.size();
 	}
-	public List<String> getCivillianList(){
+	public List<UUID> getCivillianList(){
 		return this.civillians;
 	}
-	public List<String> getSpectatorList(){
+	public List<UUID> getSpectatorList(){
 		return this.spectators;
 	}
 	public void endGame(){
@@ -85,7 +86,7 @@ public class PurgeGame {
 		plugin.timer.setTime(11);
 		for(Player p : Bukkit.getOnlinePlayers()){
 			this.clearOfLists(p);
-			this.spectators.add(p.getName());
+			this.spectators.add(p.getUniqueId());
 			p.getInventory().clear();
 			plugin.board.setAfterGameBoard(winningTeamName, p);
 			p.setAllowFlight(true);
@@ -153,15 +154,15 @@ public class PurgeGame {
 		Player[] players = Bukkit.getOnlinePlayers();
 		Collections.shuffle(Arrays.asList(players));
 		if(players.length > 5 && players.length < 10){
-			syndicate.add(players[1].getName());
+			syndicate.add(players[1].getUniqueId());
 			players[1].sendMessage(plugin.prefix + ChatColor.RED + "You have been put into the syndicate team! You are hunting for: " + ChatColor.DARK_RED + players[2].getName());
-			syndicate.add(players[0].getName());
+			syndicate.add(players[0].getUniqueId());
 			players[0].sendMessage(plugin.prefix + ChatColor.RED + "You have been put into the syndicate team! You are hunting for: " + ChatColor.DARK_RED + players[2].getName());
 			target = players[2];
 			players[2].sendMessage(plugin.prefix + ChatColor.translateAlternateColorCodes('&', "&c&lYou have been chosen as the target! Look for shelter immediately!"));
 			for(Player p : players){
 				if(!syndicate.contains(p.getName()) && !target.getName().equalsIgnoreCase(p.getName())){
-					civillians.add(p.getName());
+					civillians.add(p.getUniqueId());
 					p.sendMessage(plugin.prefix + "You are a civillian! Protect the target: " + ChatColor.GREEN + players[2].getName() + ". You may assist or kill other civillians.");
 				}
 			}
@@ -174,7 +175,7 @@ public class PurgeGame {
 			players[7].sendMessage(plugin.prefix + ChatColor.translateAlternateColorCodes('&', "&c&lYou have been chosen as the target! Look for shelter immediately!"));
 			for(Player p : players){
 				if(!syndicate.contains(p.getName()) && !target.getName().equalsIgnoreCase(p.getName())){
-					civillians.add(p.getName());
+					civillians.add(p.getUniqueId());
 					p.sendMessage(plugin.prefix + "You are a civillian! Protect the target: " + ChatColor.GREEN + players[5].getName() + ". You may assist or kill other civillians.");
 				}
 			}
@@ -210,8 +211,8 @@ public class PurgeGame {
 		}
 	}
 	private void teleportPlayers(){
-		for(String s : syndicate){
-			Player p = Bukkit.getPlayerExact(s);
+		for(UUID s : syndicate){
+			Player p = Bukkit.getPlayer(s);
 			String[] split = plugin.maps.getMapsInfoConfig().getString(world.getName() + ".syndicatespawnpoint").split(",");
 			p.teleport(new Location(world, Double.parseDouble(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2])));
 			PlayerInventory pi = p.getInventory();
@@ -249,24 +250,24 @@ public class PurgeGame {
 		String[] splitTarget = plugin.maps.getMapsInfoConfig().getString(world.getName() + ".targetspawn").split(",");
 		target.teleport(new Location(world, Double.parseDouble(splitTarget[0]), Double.parseDouble(splitTarget[1]), Double.parseDouble(splitTarget[2])));
 		int counter = 0;
-		for(String s : civillians){
+		for(UUID s : civillians){
 			ItemStack lc = new ItemStack(Material.LEATHER_CHESTPLATE);
 			LeatherArmorMeta lm = (LeatherArmorMeta) lc.getItemMeta();
 			lm.setColor(Color.GREEN);
 			lc.setItemMeta(lm);
-			plugin.book.giveCivilianBook(Bukkit.getPlayerExact(s));
-			Bukkit.getPlayerExact(s).getInventory().setChestplate(lc);
+			plugin.book.giveCivilianBook(Bukkit.getPlayer(s));
+			Bukkit.getPlayer(s).getInventory().setChestplate(lc);
 			String[] split = plugin.maps.getMapsInfoConfig().getStringList(world.getName() + ".housespawn").get(counter).split(",");
-			Bukkit.getPlayerExact(s).teleport(new Location(world, Double.parseDouble(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2])));
+			Bukkit.getPlayer(s).teleport(new Location(world, Double.parseDouble(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2])));
 			counter++;
 		}
 	}
 	private void putIntoSyndicate(Player p){
-		syndicate.add(p.getName());
+		syndicate.add(p.getUniqueId());
 		p.sendMessage(plugin.prefix + ChatColor.RED + "You have been put into the syndicate team!");
 	}
 	private void putIntoCivillian(Player p){
-		civillians.add(p.getName());
+		civillians.add(p.getUniqueId());
 		p.sendMessage(plugin.prefix + ChatColor.GREEN + "You have been put into the civilians team! Protect the target!");
 	}
 }

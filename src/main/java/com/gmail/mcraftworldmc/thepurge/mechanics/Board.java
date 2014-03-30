@@ -1,6 +1,7 @@
 package com.gmail.mcraftworldmc.thepurge.mechanics;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,6 +23,7 @@ import com.gmail.mcraftworldmc.thepurge.Main;
  * @since 1.0.0
  *
  */
+@SuppressWarnings("deprecation")
 public class Board {
 	private Main plugin;
 	public Board(Main instance){
@@ -56,7 +58,7 @@ public class Board {
 	 * @param syndicateCount Amount of players that are syndicate integer
 	 * @param civillianCount Amount of players that are civillian integer
 	 */
-	public void setGameBoard(Player p, String timeLeft, int syndicateCount, int civillianCount, List<String> syndicateList, List<String> civillianList, List<String> spectator, Player target){
+	public void setGameBoard(Player p, String timeLeft, int syndicateCount, int civillianCount, List<UUID> syndicateList, List<UUID> civillianList, List<UUID> spectator, Player target){
 		ScoreboardManager sm = plugin.getServer().getScoreboardManager();
 		Scoreboard board = sm.getNewScoreboard();
 		Team syn = board.registerNewTeam("Syndicate");
@@ -77,17 +79,17 @@ public class Board {
 		spectators.setScore(spectator.size());
 		p.setScoreboard(board);
 		if(syndicateList != null){
-			for(String s : syndicateList){
+			for(UUID s : syndicateList){
 				syn.addPlayer(Bukkit.getOfflinePlayer(s));
 			}
 		}
 		if(civillianList != null){
-			for(String s : civillianList){
+			for(UUID s : civillianList){
 				civ.addPlayer(Bukkit.getOfflinePlayer(s));
 			}
 		}
 		if(spectator != null){
-			for(String s  : spectator){
+			for(UUID s  : spectator){
 				spe.addPlayer(Bukkit.getOfflinePlayer(s));
 			}
 		}

@@ -114,7 +114,7 @@ public class PurgeGameListener implements Listener{
 			return;
 		}
 		plugin.game.clearOfLists(p);
-		plugin.game.getSpectatorList().add(p.getName());
+		plugin.game.getSpectatorList().add(p.getUniqueId());
 		for(Player pl : Bukkit.getOnlinePlayers()){
 			pl.hidePlayer(p);
 		}
@@ -134,7 +134,7 @@ public class PurgeGameListener implements Listener{
 			return;
 		}
 		plugin.game.clearOfLists(e.getPlayer());
-		plugin.game.getSpectatorList().add(e.getPlayer().getName());
+		plugin.game.getSpectatorList().add(e.getPlayer().getUniqueId());
 		for(Player p : Bukkit.getOnlinePlayers()){
 			p.hidePlayer(e.getPlayer());
 		}
@@ -232,8 +232,6 @@ public class PurgeGameListener implements Listener{
 			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&a" + e.getPlayer().getName() + "&8: &7" + e.getMessage()));
 		}else if(plugin.game.getTarget().equals(e.getPlayer())){
 			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&b" + e.getPlayer().getName() + "&8: &7" + e.getMessage()));
-		}else{
-			plugin.getLogger().severe("ERROR CODE 1: ON onChat EVENT IN PurgeGameListener");
 		}
 	}
 	@EventHandler
